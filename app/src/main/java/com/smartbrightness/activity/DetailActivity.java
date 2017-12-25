@@ -44,6 +44,40 @@ public class DetailActivity extends BaseActivity {
     @Override
     protected void initData() {
         super.initData();
+        // 通讯加密
+//        JsonObject jsonObject = new JsonObject();
+//        jsonObject.addProperty("bytalkjid", "");
+//        jsonObject.addProperty("timestamp", Long.toString(System.currentTimeMillis()));
+//
+//        String jsonString = jsonObject.toString();
+//        String encodeBase64 = BASE64Utils.encodeBase64(jsonString);
+//        // 加密
+//        String keyString = jsonString + "qZe60QZFxuirub2ey4+7+Q==";
+//        String encodeMD5 = MD5Utils.encodeMD5(keyString);
+//        String KeyEncodeBase64 = BASE64Utils.encodeBase64(encodeMD5);
+//
+//        Map<String,String> params = new HashMap<>();
+//        params.put("logistics_interface", encodeBase64);
+//        params.put("data_digest", KeyEncodeBase64);
+//        params.put("msg_type", "JSON");
+//        params.put("timestamp", Long.toString(System.currentTimeMillis()));
+//        params.put("version", "1.0");
+//
+//        String url = "http://fo.wellchat.net/WellChatForBuddhism/httpAdsListAction";
+//
+//        BRApplication.mOkDroid.post().url(url).params(params).tag(this)
+//                .enqueue(new RawResHandler() {
+//                    @Override
+//                    public void onSuccess(int statusCode, String response) {
+//                        ((TextView) findViewById(R.id.tv_result)).setText(response);
+//                    }
+//
+//                    @Override
+//                    public void onFailed(int statusCode, String errMsg) {
+//                        ((TextView) findViewById(R.id.tv_result)).setText(errMsg);
+//                    }
+//                });
+
         // 文件下载
         File file = new File(filePath);
         // 判断文件目录是否存在
@@ -68,6 +102,7 @@ public class DetailActivity extends BaseActivity {
                         ((TextView) findViewById(R.id.tv_result)).setText("下载失败：" + errMsg);
                     }
                 });
+
         // 文件上传
 //        File file = new File(saveFileAllName2);
 //        Map<String, String> params = new HashMap<>();
