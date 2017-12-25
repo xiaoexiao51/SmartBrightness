@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/fl_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="-3dp"
+        android:layout_weight="1"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/bg_shadow_top"/>
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@color/color_white"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/tab_current"
+            style="@style/MainRadioButton"
+            android:drawableTop="@drawable/tab_current_selector"
+            android:text="实时"/>
+
+        <RadioButton
+            android:id="@+id/tab_history"
+            style="@style/MainRadioButton"
+            android:drawableTop="@drawable/tab_history_selector"
+            android:text="回放"/>
+
+        <RadioButton
+            android:id="@+id/tab_collection"
+            style="@style/MainRadioButton"
+            android:drawableTop="@drawable/tab_collection_selector"
+            android:text="收藏"/>
+
+        <RadioButton
+            android:id="@+id/tab_callpolice"
+            style="@style/MainRadioButton"
+            android:drawableTop="@drawable/tab_callpolice_selector"
+            android:text="报警"/>
+
+        <RadioButton
+            android:id="@+id/tab_checking"
+            style="@style/MainRadioButton"
+            android:drawableTop="@drawable/tab_checking_selector"
+            android:text="巡查"/>
+
+    </RadioGroup>
+
+</LinearLayout>

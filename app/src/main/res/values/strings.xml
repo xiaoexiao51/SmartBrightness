@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">雪亮工程</string>
+
+    <string name="is_loading">加载中，请稍后...</string>
+    <string name="no_login">登录账号，查看更多内容</string>
+    <string name="no_network">网络不通畅</string>
+    <string name="no_value">No value for result</string>
+    <string name="company">融网智信</string>
+    <string name="companyaddress">杭州市江干区</string>
+    <string name="telephone">0571-28880061</string>
+</resources>
