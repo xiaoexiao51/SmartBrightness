@@ -14,7 +14,7 @@ import com.smartbrightness.adapter.MainNewsAdapter;
 import com.smartbrightness.base.BaseFragment;
 import com.smartbrightness.base.BaseRecyclerAdapter;
 import com.smartbrightness.bean.NewsBean;
-import com.smartbrightness.http.handle.GsonHandler;
+import com.smartbrightness.http.response.GsonResHandler;
 import com.smartbrightness.refreshview.LRecyclerAdapter;
 import com.smartbrightness.refreshview.LRecyclerView;
 import com.smartbrightness.refreshview.interfaces.OnLoadMoreListener;
@@ -203,7 +203,6 @@ public class CurrentFragment extends BaseFragment {
                 if (CommonUtils.isFastDoubleClick()) {
                     MessageUtils.showInfo(activity, "点击太快，休息一会");
                 } else {
-                    MessageUtils.showInfo(activity, mNewsBeens.get(position).getTitle());
                     Bundle bundle = new Bundle();
                     bundle.putString("WEB_URL", mNewsBeens.get(position).getUrl_3w());
 //                    bundle.putString("WEB_URL", "http://113.195.135.37:58080/NewShangRao/publish/126/2017-06-05/308.html");
@@ -228,57 +227,56 @@ public class CurrentFragment extends BaseFragment {
         showLoading("正在加载...");
         String url = "http://c.3g.163.com/nc/article/list/T1348648517839/" +
                 mCurrentPage * 20 + "-20.html";
-        BRApplication.mOkHttpUtils.get().url(url).tag(this).enqueue(new GsonHandler<NewsBean>() {
-            @Override
-            public void onSuccess(int statusCode, NewsBean response) {
-//                LogUtils.log(response);
-//                NewsBean newsBean = new Gson().fromJson(response, NewsBean.class);
-                dismissLoading();
-                List<NewsBean.T1348648517839Bean> bean = response.getT1348648517839();
-                if (bean != null && bean.size() != 0) {
-
-                    //绑定新闻列表数据
-                    mCurrentPage++;
-                    mRecyclerView.refreshComplete(20);
-
-                    if (isRefreshing) {
-                        isRefreshing = false;
-                        mNewsBeens.clear();
-                        mNewsBeens.addAll(bean);
-                        mAdapter.notifyDataSetChanged();
-                    }
-
-                    if (isLoading) {
-                        isLoading = false;
-                        mAdapter.addAll(bean);
-                    }
-                } else {
-                    mRecyclerView.setEmptyView(mInflater.inflate(R.layout.layout_empty, mEmptyView));
-                    mRecyclerView.refreshComplete(20);
-                    MessageUtils.showInfo(activity, "没有最新内容");
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, String error_msg) {
-                LogUtils.log(error_msg);
-                dismissLoading();
-                mRecyclerView.setEmptyView(mInflater.inflate(R.layout.layout_error, mEmptyView));
-                if (isRefreshing) {
-                    mRecyclerView.refreshComplete(20);
-                }
-                if (isLoading) {
-                    mRecyclerView.refreshComplete(20);
-                    mRecyclerView.setOnNetWorkErrorListener(new OnNetWorkErrorListener() {
-                        @Override
-                        public void reload() {
-                            isLoading = true;
-                            initData();
+        BRApplication.mOkDroid.get().url(url).tag(this)
+                .enqueue(new GsonResHandler<NewsBean>() {
+                    @Override
+                    public void onFailed(int statusCode, String errMsg) {
+                        dismissLoading();
+                        mRecyclerView.setEmptyView(mInflater.inflate(R.layout.layout_error, mEmptyView));
+                        if (isRefreshing) {
+                            mRecyclerView.refreshComplete(20);
                         }
-                    });
-                }
-            }
-        });
+                        if (isLoading) {
+                            mRecyclerView.refreshComplete(20);
+                            mRecyclerView.setOnNetWorkErrorListener(new OnNetWorkErrorListener() {
+                                @Override
+                                public void reload() {
+                                    isLoading = true;
+                                    initData();
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, NewsBean response) {
+                        dismissLoading();
+                        List<NewsBean.T1348648517839Bean> bean = response.getT1348648517839();
+                        if (bean != null && bean.size() != 0) {
+
+                            //绑定新闻列表数据
+                            mCurrentPage++;
+                            mRecyclerView.refreshComplete(20);
+
+                            if (isRefreshing) {
+                                isRefreshing = false;
+                                mNewsBeens.clear();
+                                mNewsBeens.addAll(bean);
+                                mAdapter.notifyDataSetChanged();
+                            }
+
+                            if (isLoading) {
+                                isLoading = false;
+                                mAdapter.addAll(bean);
+                            }
+                        } else {
+                            mRecyclerView.setEmptyView(mInflater.inflate(R.layout.layout_empty, mEmptyView));
+                            mRecyclerView.refreshComplete(20);
+                            MessageUtils.showInfo(activity, "没有最新内容");
+                        }
+                    }
+                });
+
     }
 
     @OnClick({R.id.tv_more, R.id.tv_title, R.id.fl_sub_title, R.id.fab_button})
