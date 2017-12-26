@@ -1,6 +1,7 @@
 package com.smartbrightness.http.builder;
 
 import com.smartbrightness.http.OkDroid;
+import com.smartbrightness.utils.LogUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +27,7 @@ public abstract class BaseHasParamRequestBuilder
      */
     public T params(Map<String, String> params) {
         this.mParams = params;
+        LogUtils.log(mParams.toString());// 打印请求参数
         return (T) this;
     }
 
@@ -41,6 +43,7 @@ public abstract class BaseHasParamRequestBuilder
             this.mParams = new HashMap<>();
         }
         this.mParams.put(key, value);
+        LogUtils.log(mParams.toString());// 打印请求参数
         return (T) this;
     }
 }

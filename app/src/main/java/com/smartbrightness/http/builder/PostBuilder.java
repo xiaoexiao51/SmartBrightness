@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.smartbrightness.http.OkDroid;
 import com.smartbrightness.http.callback.MyCallback;
 import com.smartbrightness.http.response.IResponseHandler;
+import com.smartbrightness.utils.LogUtils;
 
 import java.util.Map;
 
@@ -27,6 +28,7 @@ public class PostBuilder extends BaseHasParamRequestBuilder<PostBuilder> {
 
     public PostBuilder jsonParams(String json) {
         this.mJsonParams = json;
+        LogUtils.log(mJsonParams.toString());// 打印请求参数
         return this;
     }
 

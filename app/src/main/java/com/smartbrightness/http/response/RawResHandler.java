@@ -1,6 +1,7 @@
 package com.smartbrightness.http.response;
 
 import com.smartbrightness.http.OkDroid;
+import com.smartbrightness.utils.LogUtils;
 
 import java.io.IOException;
 
@@ -16,9 +17,10 @@ public abstract class RawResHandler implements IResponseHandler {
     @Override
     public final void onSuccess(final Response response) {
         ResponseBody responseBody = response.body();
-        String resBodyStr = "";
+        String responseBodyStr = "";
         try {
-            resBodyStr = responseBody.string();
+            responseBodyStr = responseBody.string();
+            LogUtils.log(responseBodyStr);// 打印网络数据~
         } catch (IOException e) {
             e.printStackTrace();
             OkDroid.mHandler.post(new Runnable() {
@@ -30,7 +32,7 @@ public abstract class RawResHandler implements IResponseHandler {
         } finally {
             responseBody.close();
         }
-        final String finalResBodyStr = resBodyStr;
+        final String finalResBodyStr = responseBodyStr;
         OkDroid.mHandler.post(new Runnable() {
             @Override
             public void run() {

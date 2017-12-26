@@ -3,6 +3,7 @@ package com.smartbrightness.http.response;
 import com.google.gson.Gson;
 import com.google.gson.internal.$Gson$Types;
 import com.smartbrightness.http.OkDroid;
+import com.smartbrightness.utils.LogUtils;
 
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
@@ -35,9 +36,10 @@ public abstract class GsonResHandler<T> implements IResponseHandler {
     @Override
     public final void onSuccess(final Response response) {
         final ResponseBody body = response.body();
-        String resBodyStr = "";
+        String responseBodyStr = "";
         try {
-            resBodyStr = body.string();
+            responseBodyStr = body.string();
+            LogUtils.log(responseBodyStr);// 打印网络数据~
         } catch (IOException e) {
             e.printStackTrace();
             OkDroid.mHandler.post(new Runnable() {
@@ -51,7 +53,7 @@ public abstract class GsonResHandler<T> implements IResponseHandler {
             body.close();
         }
 
-        final String finalBodyStr = resBodyStr;
+        final String finalBodyStr = responseBodyStr;
         try {
             OkDroid.mHandler.post(new Runnable() {
                 @Override

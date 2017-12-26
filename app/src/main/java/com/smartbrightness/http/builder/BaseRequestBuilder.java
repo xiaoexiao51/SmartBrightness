@@ -2,6 +2,7 @@ package com.smartbrightness.http.builder;
 
 import com.smartbrightness.http.OkDroid;
 import com.smartbrightness.http.response.IResponseHandler;
+import com.smartbrightness.utils.LogUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +33,7 @@ public abstract class BaseRequestBuilder<T extends BaseRequestBuilder> {
      */
     public T url(String url) {
         this.mUrl = url;
+        LogUtils.log(mUrl.toString());// 打印请求地址
         return (T) this;
     }
 
@@ -76,6 +78,7 @@ public abstract class BaseRequestBuilder<T extends BaseRequestBuilder> {
         if (headers == null || headers.isEmpty()) {
             return;
         }
+        LogUtils.log(headers.toString());// 打印请求头
         Headers.Builder headerBuilder = new Headers.Builder();
         for (String key :
                 headers.keySet()) {

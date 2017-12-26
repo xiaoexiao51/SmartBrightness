@@ -1,6 +1,7 @@
 package com.smartbrightness.http.response;
 
 import com.smartbrightness.http.OkDroid;
+import com.smartbrightness.utils.LogUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +25,7 @@ public abstract class JsonResHandler implements IResponseHandler {
         String responseBodyStr = "";
         try {
             responseBodyStr = responseBody.string();
+            LogUtils.log(responseBodyStr);// 打印网络数据~
         } catch (IOException e) {
             e.printStackTrace();
             OkDroid.mHandler.post(new Runnable() {
