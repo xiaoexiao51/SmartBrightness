@@ -37,12 +37,12 @@ public class BRApplication extends Application {
 
     private void initConfig() {
         if (BuildConfig.DEBUG) {
-            LogUtils.setDebugMode("LogUtils");  // 初始化日志管理
+            LogUtils.setDebugMode("LogUtils");// 初始化日志管理
 //            if (!LeakCanary.isInAnalyzerProcess(this)) {
-//                LeakCanary.install(this);     // 初始化内存管理
+//                LeakCanary.install(this);// 初始化内存管理
 //            }
         }
-//        PgyCrashManager.register(this);         // 初始化蒲公英
+//        PgyCrashManager.register(this);// 初始化蒲公英
 
         // 初始化网络请求
         HttpLoggingInterceptor interceptor = new
@@ -51,12 +51,14 @@ public class BRApplication extends Application {
             public void log(String message) {
                 LogUtils.log("NetUtil", message);
             }
-        }).setLevel(HttpLoggingInterceptor.Level.BODY);
-
+        });
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(15, TimeUnit.SECONDS)
                 .readTimeout(15, TimeUnit.SECONDS)
+                .writeTimeout(15,TimeUnit.SECONDS)
                 .addInterceptor(interceptor).build();
+
         mOkDroid = new OkDroid(okHttpClient);
     }
 }

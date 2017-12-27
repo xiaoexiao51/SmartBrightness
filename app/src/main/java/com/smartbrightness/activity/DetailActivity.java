@@ -16,7 +16,7 @@ import java.util.Map;
 
 /**
  * Created by MMM on 2017/9/1.
- * 实时视频详情
+ * 测试网络请求
  */
 public class DetailActivity extends BaseActivity {
 

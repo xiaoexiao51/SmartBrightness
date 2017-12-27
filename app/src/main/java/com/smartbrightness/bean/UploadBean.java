@@ -13,6 +13,7 @@ public class UploadBean {
      */
 
     private ItemBean item;
+
     private List<ItemsBean> items;
 
     public ItemBean getItem() {
