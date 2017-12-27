@@ -1,9 +1,18 @@
 package com.smartbrightness.activity;
 
 import android.os.Bundle;
+import android.os.Environment;
+import android.widget.TextView;
 
+import com.smartbrightness.BRApplication;
 import com.smartbrightness.R;
 import com.smartbrightness.base.BaseActivity;
+import com.smartbrightness.bean.UploadBean;
+import com.smartbrightness.http.response.GsonResHandler;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by MMM on 2017/9/1.
@@ -16,13 +25,14 @@ public class DetailActivity extends BaseActivity {
 //    private static String filePath = sd_path + "EmojiDir/";
 //    private static String saveFileAllName = filePath + "emoji.zip";
 //    private static String downloadUrl = "http://54.65.154.177:8080/upLoadPath/ed7fc241-eb60-4fd0-88a0-8d9637dcbc6b.zip";
+
     // 文件上传存储卡的路径
-//    private static String sd_path = Environment.getExternalStorageDirectory() + "/";
-//    private static String filePath = sd_path + "EmojiDir/";
-//    private static String saveFileAllName = filePath + "123.jpg";
-//    private static String saveFileAllName2 = filePath + "121.jpg";
-//    private static String uploadUrl = "http://113.214.24.174:8080/governance_restful/service/order/uploadImage";
-////    private static String uploadUrl = "http://118.31.45.21:8280/governance_restful/service/order/uploadImage";
+    private static String sd_path = Environment.getExternalStorageDirectory() + "/";
+    private static String filePath = sd_path + "EmojiDir/";
+    private static String saveFileAllName = filePath + "123.jpg";
+    private static String saveFileAllName2 = filePath + "121.jpg";
+    private static String uploadUrl = "http://113.214.24.174:8080/governance_restful/service/order/uploadImage";
+//    private static String uploadUrl = "http://118.31.45.21:8280/governance_restful/service/order/uploadImage";
 
     @Override
     protected int getViewId() {
@@ -126,23 +136,27 @@ public class DetailActivity extends BaseActivity {
 //                });
 
         // 文件上传
-//        File file = new File(saveFileAllName2);
-//        Map<String, String> params = new HashMap<>();
-//        params.put("token", "52d3e4e4-054f-4975-8e67-c31d71de46c5");
-//        showLoading("正在加载...");
-//        BRApplication.mOkDroid.upload().url(uploadUrl).params(params).addFile("data", file)
-//                .enqueue(new GsonResHandler<UploadBean>() {
-//                    @Override
-//                    public void onFailed(int statusCode, String errMsg) {
-//                        dismissLoading();
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(int statusCode, UploadBean response) {
-//                        dismissLoading();
-////                        String imageName = response.getItems().get(0).getImageName();
-////                        ((TextView) findViewById(R.id.tv_result)).setText(imageName);
-//                    }
-//                });
+        Map<String, File> fileMap = new HashMap<>();
+//        File file = new File(saveFileAllName);
+        File file2 = new File(saveFileAllName2);
+//        fileMap.put("data", file);
+        fileMap.put("data2", file2);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("token", "7232afc4-5163-4edf-a37a-d91d11244175");
+        showLoading("正在加载...");
+        BRApplication.mOkDroid.upload().url(uploadUrl).params(params).files(fileMap)
+                .enqueue(new GsonResHandler<UploadBean>() {
+                    @Override
+                    public void onFailed(int statusCode, String errMsg) {
+                        dismissLoading();
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, UploadBean response) {
+                        dismissLoading();
+                        ((TextView) findViewById(R.id.tv_result)).setText(response.toString());
+                    }
+                });
     }
 }

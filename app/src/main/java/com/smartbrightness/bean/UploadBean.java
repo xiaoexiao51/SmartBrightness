@@ -45,6 +45,13 @@ public class UploadBean {
         public void setState(int state) {
             this.state = state;
         }
+
+        @Override
+        public String toString() {
+            return "ItemBean{" +
+                    "state=" + state +
+                    '}';
+        }
     }
 
     public static class ItemsBean {
@@ -61,6 +68,21 @@ public class UploadBean {
         public void setImageName(String imageName) {
             this.imageName = imageName;
         }
+
+        @Override
+        public String toString() {
+            return "ItemsBean{" +
+                    "imageName='" + imageName + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "UploadBean{" +
+                "item=" + item +
+                ", items=" + items +
+                '}';
     }
 }
 

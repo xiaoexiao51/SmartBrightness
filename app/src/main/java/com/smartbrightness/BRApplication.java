@@ -10,6 +10,7 @@ import com.smartbrightness.utils.SPUtils;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 
 /**
@@ -44,20 +45,18 @@ public class BRApplication extends Application {
 //        PgyCrashManager.register(this);         // 初始化蒲公英
 
         // 初始化网络请求
+        HttpLoggingInterceptor interceptor = new
+                HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            @Override
+            public void log(String message) {
+                LogUtils.log("NetUtil", message);
+            }
+        }).setLevel(HttpLoggingInterceptor.Level.BODY);
+
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(10000L, TimeUnit.MILLISECONDS)
-                .readTimeout(10000L, TimeUnit.MILLISECONDS)
-                .build();
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .readTimeout(15, TimeUnit.SECONDS)
+                .addInterceptor(interceptor).build();
         mOkDroid = new OkDroid(okHttpClient);
-        mOkDroid.setDebug(true);//开启log日志
-//        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-//        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-//        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-//                .connectTimeout(15000L, TimeUnit.MILLISECONDS)
-//                .readTimeout(15000L, TimeUnit.MILLISECONDS)
-//                .writeTimeout(15000L, TimeUnit.MILLISECONDS)
-//                .addInterceptor(logging)    // 设置开启logging
-//                .build();
-//        mOkHttpUtils = new OkHttpUtils(okHttpClient);
     }
 }
